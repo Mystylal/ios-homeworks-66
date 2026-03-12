@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let feedNavController = UINavigationController(rootViewController: feedController)
         feedNavController.tabBarItem = UITabBarItem(title: "Feed", image:UIImage(systemName: "house"), tag:0)
         
-        let profileController = ProfileViewController()
+        let profileController = LogInViewController()
         let profileNavController = UINavigationController(rootViewController: profileController)
         profileNavController.tabBarItem = UITabBarItem(title: "Profile", image:UIImage(systemName: "person"), tag:0)
        
