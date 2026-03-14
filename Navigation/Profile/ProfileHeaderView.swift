@@ -69,14 +69,13 @@ import UIKit
      
       
       func setupViews() {
-            addSubview(avatarImageView)
-            addSubview(fullNameLabel)
-            addSubview(statusLabel)
-            addSubview(statusTextField)
-            addSubview(setStatusButton)
-            setStatusButton.addTarget(self, action: #selector(buttonPressed), for:
-        .touchUpInside)
-            setupConstraints()
+          addSubview(avatarImageView)
+          addSubview(fullNameLabel)
+          addSubview(statusLabel)
+          addSubview(statusTextField)
+          addSubview(setStatusButton)
+          setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+          setupConstraints()
         }
       
       private func setupConstraints() {

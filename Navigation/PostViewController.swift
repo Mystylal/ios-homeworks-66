@@ -13,7 +13,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         title = "Post"
         view.backgroundColor = .systemYellow
-        title = post?.title
+        title = post?.author
         
         let infoButton = UIBarButtonItem(
             title: "Info",
