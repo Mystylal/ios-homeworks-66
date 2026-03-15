@@ -19,6 +19,8 @@ class ProfileViewController: UIViewController {
         Post(author: "Resident Evil", description: "Resident Evil Requiem получит сюжетное DLC — официально.", image: "resident", likes:
        312, views: 2100) ]
    
+    private let photos: [String] = (1...20).map { "photo\($0)" }
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,31 +53,50 @@ class ProfileViewController: UIViewController {
         tableView.register(PostTableViewCell.self,forCellReuseIdentifier: "PostCell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
     }
 }
 
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,numberOfRowsInSection section: Int) -> Int {
-          posts.count
+        section == 0 ? 1 : posts.count
     }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-          guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
-              fatalError("could not dequeueReusableCell")
+        if indexPath.section == 0 {guard let cell = tableView.dequeueReusableCell(withIdentifier:"PhotosCell", for: indexPath) as? PhotosTableViewCell else {
+            fatalError("could not dequeueReusableCell")
+            }
+            cell.update(Array(photos.prefix(4)))
+            return cell
+        }
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
+            fatalError("could not dequeueReusableCell")
+        }
+        cell.update(posts[indexPath.row])
+        return cell
     }
-    cell.update(posts[indexPath.row])
-    return cell
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+          2
     }
 }
                                                                
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,viewForHeaderInSection section: Int) -> UIView? {
+        guard section == 0 else { return nil }
         let headerView = ProfileHeaderView()
         headerView.setupViews()
         return headerView
     }
                                                                      
-    func tableView(_ tableView: UITableView,heightForHeaderInSection section: Int) -> CGFloat {
-        return 220
-    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+         section == 0 ? 220 : 0
+     }
+
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         if indexPath.section == 0 {
+             let photosViewController = PhotosViewController()
+             navigationController?.pushViewController(photosViewController, animated: true)
+         }
+     }
   }
