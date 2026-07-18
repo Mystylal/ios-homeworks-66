@@ -67,6 +67,7 @@ import UIKit
         }()
       
      
+      var onAvatarTap: (() -> Void)?
       
       func setupViews() {
           addSubview(avatarImageView)
@@ -76,6 +77,10 @@ import UIKit
           addSubview(setStatusButton)
           setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
           setupConstraints()
+          avatarImageView.isUserInteractionEnabled = true
+          let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
+          avatarImageView.addGestureRecognizer(tapGesture)
+
         }
       
       private func setupConstraints() {
@@ -109,5 +114,9 @@ import UIKit
       
       @objc func buttonPressed() {
            print(statusLabel.text ?? "")
+       }
+      
+      @objc private func avatarTapped() {
+           onAvatarTap?()
        }
   }

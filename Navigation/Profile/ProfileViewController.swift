@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import StorageService
+
+private var profileHeaderView: ProfileHeaderView?
 
 class ProfileViewController: UIViewController {
     private let posts: [Post] = [
@@ -31,7 +34,11 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
+        #if DEBUG
         view.backgroundColor = .white
+        #else
+        view.backgroundColor = .blue
+        #endif
         view.addSubview(tableView)
         setupConstraints()
         tuneTableView()
@@ -54,6 +61,10 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
+    }
+    
+    private func showAvatarAnimation() {
+         
     }
 }
 
@@ -86,6 +97,8 @@ extension ProfileViewController: UITableViewDelegate {
         guard section == 0 else { return nil }
         let headerView = ProfileHeaderView()
         headerView.setupViews()
+        headerView.onAvatarTap = {[weak self] in self?.showAvatarAnimation()}
+        
         return headerView
     }
                                                                      
