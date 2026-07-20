@@ -66,7 +66,11 @@ import UIKit
           return textField
         }()
       
-     
+      func update(with user:User){
+          fullNameLabel.text = user.fullName
+          avatarImageView.image = user.avatar
+          statusLabel.text = user.status
+      }
       var onAvatarTap: (() -> Void)?
       
       func setupViews() {

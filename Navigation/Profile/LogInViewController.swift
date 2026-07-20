@@ -171,10 +171,27 @@ class LogInViewController: UIViewController {
         notificationCenter.removeObserver(self)
     }
 
-
+    #if DEBUG
+    private let userService: UserService = TestUserService()
+    #else
+    private let userService: UserService = CurrentUserService(
+        user: User(login: "cat",
+                   fullName: "Hipster Cat",
+                   avatar: UIImage(named: "fish 1") ?? UIImage(),
+                   status: "Waiting for something...")
+    )
+    #endif
     
     @objc func logInButtonPressed() {
-         let profile = ProfileViewController()
+        let login = emailTextField.text ?? ""
+        
+        guard let user = userService.getUser(login: login) else {
+            let alert = UIAlertController(title: "Ошибка", message: "Неверный логин", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OKКК", style: .default))
+            present(alert, animated: true)
+            return
+        }
+         let profile = ProfileViewController(user: user)
          navigationController?.pushViewController(profile, animated: true)
      }
 }
