@@ -11,6 +11,17 @@ import StorageService
 private var profileHeaderView: ProfileHeaderView?
 
 class ProfileViewController: UIViewController {
+    private let user: User
+
+    init(user: User){
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let posts: [Post] = [
         Post(author: "Intel", description: "Intel показал НОВЫЕ процессоры Core Ultra 7 270K Plus и 250K Plus — «самые быстрые игровые процессоры в мире».", image: "intel", likes: 245, views: 1200),
                                   
@@ -97,6 +108,7 @@ extension ProfileViewController: UITableViewDelegate {
         guard section == 0 else { return nil }
         let headerView = ProfileHeaderView()
         headerView.setupViews()
+        headerView.update(with: user)
         headerView.onAvatarTap = {[weak self] in self?.showAvatarAnimation()}
         
         return headerView
