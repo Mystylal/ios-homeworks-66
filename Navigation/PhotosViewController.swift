@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import iOSIntPackage
 
 class PhotosViewController: UIViewController {
     
-    private let photos: [String] = (1...20).map { "photo\($0)" }
+    private var photos: [UIImage] = []
+    private let userImage: [UIImage] = (1...20).compactMap{UIImage(named: "photo\($0)")}
+    private let imagePublisherFacade = ImagePublisherFacade()
     
     private lazy var collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
@@ -24,6 +27,8 @@ class PhotosViewController: UIViewController {
         title = "Photo Gallery"
         setupCollectionView()
         setupConstraints()
+        imagePublisherFacade.subscribe(self)
+        imagePublisherFacade.addImagesWithTimer(time: 0.5, repeat: 20, userImages: userImage)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -33,6 +38,7 @@ class PhotosViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isHidden = true
+        imagePublisherFacade.removeSubscription(for: self)
     }
     
     private func setupCollectionView() {
@@ -89,3 +95,13 @@ extension PhotosViewController: UICollectionViewDelegateFlowLayout {
         LayoutConstant.spacing
     }
   }
+
+extension PhotosViewController: ImageLibrarySubscriber {
+    func receive(images: [UIImage]) {
+        photos = images
+        collectionView.reloadData()
+    }
+}
+
+
+
