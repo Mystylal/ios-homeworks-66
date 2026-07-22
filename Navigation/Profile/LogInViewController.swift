@@ -8,7 +8,9 @@
 import UIKit
 
 class LogInViewController: UIViewController {
-
+    
+    var loginDelegate: LoginViewControllerDelegate?
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -184,6 +186,14 @@ class LogInViewController: UIViewController {
     
     @objc func logInButtonPressed() {
         let login = emailTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        
+        guard loginDelegate?.check(login: login, password: password) == true else {
+            let alert = UIAlertController(title: "Ошибка", message: "Неверный логин или пароль", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OKКК", style: .default))
+            present(alert, animated: true)
+            return
+        }
         
         guard let user = userService.getUser(login: login) else {
             let alert = UIAlertController(title: "Ошибка", message: "Неверный логин", preferredStyle: .alert)
@@ -194,4 +204,10 @@ class LogInViewController: UIViewController {
          let profile = ProfileViewController(user: user)
          navigationController?.pushViewController(profile, animated: true)
      }
+}
+
+struct LoginInspector: LoginViewControllerDelegate{
+    func check(login: String, password: String) -> Bool{
+        Checker.shared.check(login: login, password: password)
+    }
 }
