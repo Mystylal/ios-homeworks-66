@@ -100,6 +100,8 @@ extension PhotosViewController: ImageLibrarySubscriber {
     func receive(images: [UIImage]) {
         photos = images
         collectionView.reloadData()
+        let item = IndexPath(item: images.count - 1, section: 0)
+        collectionView.scrollToItem(at: item, at: .bottom, animated: true)
     }
 }
 

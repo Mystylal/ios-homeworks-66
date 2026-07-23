@@ -78,9 +78,9 @@ class LogInViewController: UIViewController {
     }()
     
     private lazy var logInButton: UIButton = {
-        let logInButton = UIButton()
-        logInButton.setTitle("Log In", for: .normal)
-        logInButton.setTitleColor(.white, for: .normal)
+        let logInButton = CustomButton(title: "Log In", titleColor: .white) {
+            [weak self] in self?.logInButtonPressed()
+        }
         logInButton.layer.cornerRadius = 10
         logInButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
         logInButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .selected)
@@ -103,8 +103,6 @@ class LogInViewController: UIViewController {
         stackView.addArrangedSubview(separatorView)
         stackView.addArrangedSubview(passwordTextField)
         contentView.addSubview(logInButton)
-        logInButton.addTarget(self, action: #selector(logInButtonPressed), for: .touchUpInside)
-        
         
         let safeAreaGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -184,7 +182,7 @@ class LogInViewController: UIViewController {
     )
     #endif
     
-    @objc func logInButtonPressed() {
+    func logInButtonPressed() {
         let login = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
