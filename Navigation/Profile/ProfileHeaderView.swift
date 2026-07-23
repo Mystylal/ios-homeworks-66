@@ -40,10 +40,9 @@ import UIKit
       }()
       
       private lazy var setStatusButton: UIButton = {
-          let button = UIButton()
-          button.backgroundColor = .systemBlue
-          button.setTitle("Show status", for: .normal)
-          button.setTitleColor(.white, for: .normal)
+          let button = CustomButton(title: "Show status", titleColor: .white, backgroundColor: .systemBlue) {
+              [weak self] in self?.buttonPressed()
+          }
           button.layer.cornerRadius = 4
           button.layer.shadowColor = UIColor.black.cgColor
           button.layer.shadowOpacity = 0.7
@@ -79,7 +78,6 @@ import UIKit
           addSubview(statusLabel)
           addSubview(statusTextField)
           addSubview(setStatusButton)
-          setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
           setupConstraints()
           avatarImageView.isUserInteractionEnabled = true
           let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
@@ -116,7 +114,7 @@ import UIKit
        }
              
       
-      @objc func buttonPressed() {
+       func buttonPressed() {
            print(statusLabel.text ?? "")
        }
       
