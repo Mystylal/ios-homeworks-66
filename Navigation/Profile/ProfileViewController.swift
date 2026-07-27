@@ -12,26 +12,17 @@ private var profileHeaderView: ProfileHeaderView?
 
 class ProfileViewController: UIViewController {
     private let user: User
+    private let viewModel: ProfileViewModel
 
-    init(user: User){
+    init(user: User, viewModel: ProfileViewModel){
         self.user = user
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private let posts: [Post] = [
-        Post(author: "Intel", description: "Intel показал НОВЫЕ процессоры Core Ultra 7 270K Plus и 250K Plus — «самые быстрые игровые процессоры в мире».", image: "intel", likes: 245, views: 1200),
-                                  
-        Post(author: "Песков", description: "«Думайте о MAX, а не о Telegram», — посоветовал Песков.", image: "peskov", likes: 566, views:
-       3400),
-        
-        Post(author: "Ferrari", description: "Ferrari показала открытую версию своей самой доступной модели — Amalfi Spider.", image: "ferrari", likes: 890, views: 5600),
-        
-        Post(author: "Resident Evil", description: "Resident Evil Requiem получит сюжетное DLC — официально.", image: "resident", likes:
-       312, views: 2100) ]
    
     private let photos: [String] = (1...20).map { "photo\($0)" }
 
@@ -81,7 +72,7 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 1 : posts.count
+        section == 0 ? 1 : viewModel.posts.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {guard let cell = tableView.dequeueReusableCell(withIdentifier:"PhotosCell", for: indexPath) as? PhotosTableViewCell else {
@@ -94,7 +85,7 @@ extension ProfileViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
             fatalError("could not dequeueReusableCell")
         }
-        cell.update(posts[indexPath.row])
+        cell.update(viewModel.posts[indexPath.row])
         return cell
     }
     
