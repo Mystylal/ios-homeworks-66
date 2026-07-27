@@ -199,7 +199,8 @@ class LogInViewController: UIViewController {
             present(alert, animated: true)
             return
         }
-         let profile = ProfileViewController(user: user)
+         let viewModel = ProfileViewModel()
+         let profile = ProfileViewController(user: user, viewModel: viewModel)
          navigationController?.pushViewController(profile, animated: true)
      }
 }
