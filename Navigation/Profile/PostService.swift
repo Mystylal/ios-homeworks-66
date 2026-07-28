@@ -20,4 +20,14 @@ class PostService {
         
         Post(author: "Resident Evil", description: "Resident Evil Requiem получит сюжетное DLC — официально.", image: "resident", likes:
        312, views: 2100) ]
+    
+    func fetchPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 3, execute: { [weak self] in
+            guard let self else { return}
+            DispatchQueue.main.async {
+                completion(.success(self.posts))
+            }
+        })
+    }
+    
 }

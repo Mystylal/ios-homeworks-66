@@ -12,9 +12,9 @@ private var profileHeaderView: ProfileHeaderView?
 
 class ProfileViewController: UIViewController {
     private let user: User
-    private let viewModel: ProfileViewModel
+    private let viewModel: ProfileVMOutput
     
-    init(user: User, viewModel: ProfileViewModel){
+    init(user: User, viewModel: ProfileVMOutput){
         self.user = user
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
    
+    private var posts: [Post] = []
     private let photos: [String] = (1...20).map { "photo\($0)" }
 
     private lazy var tableView: UITableView = {
@@ -44,6 +45,8 @@ class ProfileViewController: UIViewController {
         view.addSubview(tableView)
         setupConstraints()
         tuneTableView()
+        bindViewModel()
+        viewModel.changeStateIfNeeded()
     }
     
     private func setupConstraints() {
@@ -65,6 +68,23 @@ class ProfileViewController: UIViewController {
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotosCell")
     }
     
+    private func bindViewModel() {
+        viewModel.currentState = { [weak self] state in
+            guard let self else { return }
+            switch state {
+            case .initial:
+                break
+            case .loading:
+                print("Loading")
+            case .loaded(let posts):
+                self.posts = posts
+                self.tableView.reloadData()
+            case .error:
+                print("Error")
+            }
+        }
+    }
+    
     private func showAvatarAnimation() {
          
     }
@@ -72,7 +92,7 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 1 : viewModel.posts.count
+        section == 0 ? 1 : posts.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {guard let cell = tableView.dequeueReusableCell(withIdentifier:"PhotosCell", for: indexPath) as? PhotosTableViewCell else {
@@ -85,7 +105,7 @@ extension ProfileViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
             fatalError("could not dequeueReusableCell")
         }
-        cell.update(viewModel.posts[indexPath.row])
+        cell.update(posts[indexPath.row])
         return cell
     }
     
