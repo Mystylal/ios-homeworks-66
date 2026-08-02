@@ -24,7 +24,13 @@ final class ProfileCoordinator: Coordinator {
     func showProfile(_ user: User) {
         let viewModel = ProfileViewModel()
         let profile = ProfileViewController(user: user, viewModel: viewModel)
+        profile.coordinator = self
         navigationController.pushViewController(profile, animated: true)
+    }
+    
+    func showPhotos() {
+        let photosViewController = PhotosViewController()
+        navigationController.pushViewController(photosViewController, animated: true)
     }
     
 }

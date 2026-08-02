@@ -13,6 +13,7 @@ private var profileHeaderView: ProfileHeaderView?
 class ProfileViewController: UIViewController {
     private let user: User
     private let viewModel: ProfileVMOutput
+    weak var coordinator: ProfileCoordinator?
     
     init(user: User, viewModel: ProfileVMOutput){
         self.user = user
@@ -131,8 +132,7 @@ extension ProfileViewController: UITableViewDelegate {
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          if indexPath.section == 0 {
-             let photosViewController = PhotosViewController()
-             navigationController?.pushViewController(photosViewController, animated: true)
+             coordinator?.showPhotos()
          }
      }
   }
