@@ -10,6 +10,7 @@ import UIKit
 class LogInViewController: UIViewController {
     
     var loginDelegate: LoginViewControllerDelegate?
+    weak var coordinator: ProfileCoordinator?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -199,9 +200,7 @@ class LogInViewController: UIViewController {
             present(alert, animated: true)
             return
         }
-         let viewModel = ProfileViewModel()
-         let profile = ProfileViewController(user: user, viewModel: viewModel)
-         navigationController?.pushViewController(profile, animated: true)
+        coordinator?.showProfile(user)
      }
 }
 
