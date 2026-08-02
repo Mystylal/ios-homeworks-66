@@ -10,26 +10,17 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var appCoordinator: AppCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
      
         guard let scene = (scene as? UIWindowScene) else { return }
      
         let window = UIWindow(windowScene: scene)
-        let feedController = FeedViewController()
-        let feedNavController = UINavigationController(rootViewController: feedController)
-        feedNavController.tabBarItem = UITabBarItem(title: "Feed", image:UIImage(systemName: "house"), tag:0)
-        
-        let profileController = LogInViewController()
-        let loginFactory = MyLoginFactory()
-        profileController.loginDelegate = loginFactory.makeLoginInspector()
-        let profileNavController = UINavigationController(rootViewController: profileController)
-        profileNavController.tabBarItem = UITabBarItem(title: "Profile", image:UIImage(systemName: "person"), tag:0)
-       
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [feedNavController, profileNavController]
-        window.rootViewController = tabBarController
+        let appCoordinator = AppCoordinator()
+        let rootVC = appCoordinator.start()
+        self.appCoordinator = appCoordinator
+        window.rootViewController = rootVC
         window.makeKeyAndVisible()
         self.window = window
     }

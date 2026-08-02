@@ -11,6 +11,8 @@ import StorageService
 class FeedViewController: UIViewController {
     private let post = Post(author: "Hipster Cat", description: "Тестовый пост", image: "fish 1", likes: 100, views: 500)
     
+    weak var coordinator: FeedCoordinator?
+    
     private lazy var guessTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Введите текст"
@@ -64,9 +66,7 @@ class FeedViewController: UIViewController {
     }
 
     func buttonPressed() {
-        let postController = PostViewController()
-        postController.post = post
-        navigationController?.pushViewController(postController, animated: true)
+        coordinator?.showPost(post)
     }
     
     private let feedModel = FeedModel()
