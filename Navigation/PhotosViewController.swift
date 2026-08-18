@@ -26,8 +26,7 @@ class PhotosViewController: UIViewController {
         title = "Photo Gallery"
         setupCollectionView()
         setupConstraints()
-        processPhotos(qos: .userInteractive, filter: .noir)
-        processPhotos(qos: .utility, filter: .noir)
+        processPhotos(qos: .userInteractive, filter: .noir) { [weak self] in self?.processPhotos(qos: .background, filter: .noir)}
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,7 +55,7 @@ class PhotosViewController: UIViewController {
          ])
      }
     
-    private func processPhotos(qos: QualityOfService, filter: ColorFilter) {
+    private func processPhotos(qos: QualityOfService, filter: ColorFilter, completion: (() -> Void)? = nil) {
         let startTime = Date()
         imageProcessor.processImagesOnThread(sourceImages: photos, filter: filter, qos: qos){ cqImages in
             let elapsedTime = Date().timeIntervalSince(startTime)
@@ -66,6 +65,7 @@ class PhotosViewController: UIViewController {
             DispatchQueue.main.async {
                 self.photos = processedImages
                 self.collectionView.reloadData()
+                completion?()
             }
         }
     }

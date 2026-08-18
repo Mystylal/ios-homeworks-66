@@ -11,6 +11,7 @@ class LogInViewController: UIViewController {
     
     var loginDelegate: LoginViewControllerDelegate?
     weak var coordinator: ProfileCoordinator?
+    private let bruteForce = BruteForce()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -62,6 +63,8 @@ class LogInViewController: UIViewController {
         passwordText.backgroundColor = .systemGray6
         passwordText.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         passwordText.leftViewMode = .always
+        passwordText.rightView = activityIndicator
+        passwordText.rightViewMode = .always
         passwordText.translatesAutoresizingMaskIntoConstraints = false
         return passwordText
     }()
@@ -90,6 +93,25 @@ class LogInViewController: UIViewController {
         logInButton.translatesAutoresizingMaskIntoConstraints = false
         return logInButton
     }()
+    
+    private lazy var bruteForceButton: UIButton = {
+        let bruteForceButton = CustomButton(title: "Подобрать пароль", titleColor: .white) {
+            [weak self] in self?.bruteForceButtonPressed()
+        }
+        bruteForceButton.layer.cornerRadius = 10
+        bruteForceButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        bruteForceButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .selected)
+        bruteForceButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .highlighted)
+        bruteForceButton.clipsToBounds = true
+        return bruteForceButton
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +126,7 @@ class LogInViewController: UIViewController {
         stackView.addArrangedSubview(separatorView)
         stackView.addArrangedSubview(passwordTextField)
         contentView.addSubview(logInButton)
+        contentView.addSubview(bruteForceButton)
         
         let safeAreaGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -136,7 +159,13 @@ class LogInViewController: UIViewController {
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
-            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -16),
+            
+            
+            bruteForceButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant:16),
+            bruteForceButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
+            bruteForceButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
+            bruteForceButton.heightAnchor.constraint(equalToConstant: 50),
+            bruteForceButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
     
@@ -202,6 +231,20 @@ class LogInViewController: UIViewController {
         }
         coordinator?.showProfile(user)
      }
+    
+    func bruteForceButtonPressed() {
+        let targetPassword = bruteForce.gereatePassword(length: Int.random(in: 3...4))
+        activityIndicator.startAnimating()
+        bruteForceButton.isEnabled = false
+        
+        bruteForce.bruteForce(password: targetPassword) {
+            [weak self] textPassword in
+            self?.passwordTextField.text = textPassword
+            self?.passwordTextField.isSecureTextEntry = false
+            self?.activityIndicator.stopAnimating()
+            self?.bruteForceButton.isEnabled = true
+        }
+    }
 }
 
 struct LoginInspector: LoginViewControllerDelegate{
