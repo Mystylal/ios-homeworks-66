@@ -11,6 +11,7 @@ class LogInViewController: UIViewController {
     
     var loginDelegate: LoginViewControllerDelegate?
     weak var coordinator: ProfileCoordinator?
+    private var timer: Timer?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -41,6 +42,7 @@ class LogInViewController: UIViewController {
         emailText.backgroundColor = .systemGray6
         emailText.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         emailText.leftViewMode = .always
+        emailText.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         emailText.translatesAutoresizingMaskIntoConstraints = false
         return emailText
     }()
@@ -62,6 +64,7 @@ class LogInViewController: UIViewController {
         passwordText.backgroundColor = .systemGray6
         passwordText.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         passwordText.leftViewMode = .always
+        passwordText.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         passwordText.translatesAutoresizingMaskIntoConstraints = false
         return passwordText
     }()
@@ -148,6 +151,7 @@ class LogInViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardObservers()
+        timer?.invalidate()
     }
 
     @objc func willShowKeyboard(_ notification: NSNotification) {
@@ -159,6 +163,18 @@ class LogInViewController: UIViewController {
 
     @objc func willHideKeyboard(_ notification: NSNotification) {
         scrollView.contentInset.bottom = 0.0
+    }
+    
+    @objc private func textFieldDidChange(){
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) {
+            [weak self] _ in self?.clearFields()
+        }
+    }
+    
+    private func clearFields(){
+        emailTextField.text = ""
+        passwordTextField.text = ""
     }
 
     private func setupKeyboardObservers() {
@@ -200,6 +216,7 @@ class LogInViewController: UIViewController {
             present(alert, animated: true)
             return
         }
+        timer?.invalidate()
         coordinator?.showProfile(user)
      }
 }
