@@ -187,6 +187,16 @@ class LogInViewController: UIViewController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(self)
     }
+    
+    private func validateFieldsNotEmpty(login: String, password: String) throws {
+        guard !login.isEmpty else { throw LoginError.emptyEmail}
+        guard !password.isEmpty else { throw LoginError.emptyPassword}
+    }
+    
+    private func validatePasswordLength(password: String) -> Result<Void, LoginError> {
+        guard password.count >= 4 else { return .failure(.passwordTooShort(minLength: 4))}
+        return .success(())
+    }
 
     #if DEBUG
     private let userService: UserService = TestUserService()
@@ -202,6 +212,28 @@ class LogInViewController: UIViewController {
     func logInButtonPressed() {
         let login = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
+        
+        do {
+            try validateFieldsNotEmpty(login: login, password: password)
+        } catch LoginError.emptyEmail {
+            showAlert(message: "Введите логин")
+            return
+        } catch LoginError.emptyPassword {
+            showAlert(message: "Введите пароль")
+            return
+        } catch {
+            showAlert(message: "Ошибка")
+            return
+        }
+        
+        switch validatePasswordLength(password: password) {
+            case .success:
+                break
+            case .failure(let error):
+                if case .passwordTooShort(let minLength) = error {
+                showAlert(message: "Пароль должен быть не менее \(minLength) символов")
+            }
+        }
         
         guard loginDelegate?.check(login: login, password: password) == true else {
             let alert = UIAlertController(title: "Ошибка", message: "Неверный логин или пароль", preferredStyle: .alert)
@@ -219,6 +251,12 @@ class LogInViewController: UIViewController {
         timer?.invalidate()
         coordinator?.showProfile(user)
      }
+    
+    private func showAlert(message: String){
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
 }
 
 struct LoginInspector: LoginViewControllerDelegate{
