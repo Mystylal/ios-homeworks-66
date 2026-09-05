@@ -11,11 +11,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var appCoordinator: AppCoordinator?
+    var appConfiguration: AppConfiguration!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
      
         guard let scene = (scene as? UIWindowScene) else { return }
-     
+        
+        let configuration: [AppConfiguration] = [
+            .people("https://swapi.dev/api/people/8"),
+            .starships("https://swapi.dev/api/starships/3"),
+            .planets("https://swapi.dev/api/planets/5")
+        ]
+        appConfiguration = configuration.randomElement()
+        NetworkService.request(for: appConfiguration)
         let window = UIWindow(windowScene: scene)
         let appCoordinator = AppCoordinator()
         let rootVC = appCoordinator.start()
