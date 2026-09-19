@@ -6,10 +6,20 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LogInViewController: UIViewController {
     
-    var loginDelegate: LoginViewControllerDelegate?
+    private weak var loginDelegate: LoginViewControllerDelegate?
+    
+    init (loginDelegate: LoginViewControllerDelegate?) {
+        self.loginDelegate = loginDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     weak var coordinator: ProfileCoordinator?
     private var timer: Timer?
     
@@ -194,27 +204,36 @@ class LogInViewController: UIViewController {
     }
     
     private func validatePasswordLength(password: String) -> Result<Void, LoginError> {
-        guard password.count >= 4 else { return .failure(.passwordTooShort(minLength: 4))}
+        guard password.count >= 6 else { return .failure(.passwordTooShort(minLength: 6))}
         return .success(())
     }
 
-    #if DEBUG
-    private let userService: UserService = TestUserService()
-    #else
-    private let userService: UserService = CurrentUserService(
-        user: User(login: "cat",
-                   fullName: "Hipster Cat",
-                   avatar: UIImage(named: "fish 1") ?? UIImage(),
-                   status: "Waiting for something...")
-    )
-    #endif
+//    #if DEBUG
+//    private let userService: UserService = TestUserService()
+//    #else
+//    private let userService: UserService = CurrentUserService(
+//        user: User(login: "cat",
+//                   fullName: "Hipster Cat",
+//                   avatar: UIImage(named: "fish 1") ?? UIImage(),
+//                   status: "Waiting for something...")
+//    )
+//    #endif
+    
+    private func goToProfile(email: String) {
+        let user = User(login: email,
+                        fullName: email,
+                        avatar: UIImage(named: "fish 1") ?? UIImage(),
+                        status: "Waiting for something...")
+        coordinator?.showProfile(user)
+        
+    }
     
     func logInButtonPressed() {
-        let login = emailTextField.text ?? ""
+        let email = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
         do {
-            try validateFieldsNotEmpty(login: login, password: password)
+            try validateFieldsNotEmpty(login: email, password: password)
         } catch LoginError.emptyEmail {
             showAlert(message: "Введите логин")
             return
@@ -233,23 +252,34 @@ class LogInViewController: UIViewController {
                 if case .passwordTooShort(let minLength) = error {
                 showAlert(message: "Пароль должен быть не менее \(minLength) символов")
             }
-        }
-        
-        guard loginDelegate?.check(login: login, password: password) == true else {
-            let alert = UIAlertController(title: "Ошибка", message: "Неверный логин или пароль", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OKКК", style: .default))
-            present(alert, animated: true)
-            return
-        }
-        
-        guard let user = userService.getUser(login: login) else {
-            let alert = UIAlertController(title: "Ошибка", message: "Неверный логин", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OKКК", style: .default))
-            present(alert, animated: true)
             return
         }
         timer?.invalidate()
-        coordinator?.showProfile(user)
+        
+        loginDelegate?.checkCredentials(email: email, password: password) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self?.goToProfile(email: email)
+                case .failure(let error):
+                    self?.loginDelegate?.signUp(email: email, password: password) { signUpResult in
+                        DispatchQueue.main.async {
+                            switch signUpResult {
+                            case .success:
+                                self?.goToProfile(email: email)
+                            case .failure(let error):
+                                let err = error as NSError
+                                if err.code == AuthErrorCode.emailAlreadyInUse.rawValue {
+                                    self?.showAlert(message: "Неверный логин или пароль")
+                                } else {
+                                    self?.showAlert(message: error.localizedDescription)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
      }
     
     private func showAlert(message: String){
@@ -259,8 +289,18 @@ class LogInViewController: UIViewController {
     }
 }
 
-struct LoginInspector: LoginViewControllerDelegate{
-    func check(login: String, password: String) -> Bool{
-        Checker.shared.check(login: login, password: password)
+class LoginInspector: LoginViewControllerDelegate{
+    private let checkerService: CheckerServiceProtocol
+    
+   init(checkerService: CheckerServiceProtocol) {
+        self.checkerService = checkerService
+    }
+    
+    func checkCredentials(email: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        checkerService.checkCredentials(email: email, password: password, completion: completion)
+    }
+    
+    func signUp(email: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        checkerService.signUp(email: email, password: password, completion: completion)
     }
 }
