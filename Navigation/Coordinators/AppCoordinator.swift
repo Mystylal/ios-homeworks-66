@@ -23,7 +23,12 @@ final class AppCoordinator: Coordinator {
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image:UIImage(systemName: "person"), tag:0)
         addChildCoordinator(profileCoordinator)
         
-        tabBarController.viewControllers = [feedVC, profileVC]
+        let DocumentCoordinator = DocumentCoordinator()
+        let DocumentVC = DocumentCoordinator.start()
+        DocumentVC.tabBarItem = UITabBarItem(title: "Document", image:UIImage(systemName: "folder"), tag:0)
+        addChildCoordinator(DocumentCoordinator)
+        
+        tabBarController.viewControllers = [feedVC, profileVC, DocumentVC]
         return tabBarController
     }
     
