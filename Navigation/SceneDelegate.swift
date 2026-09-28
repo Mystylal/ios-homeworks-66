@@ -27,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         NetworkService.request(for: appConfiguration)
         let window = UIWindow(windowScene: scene)
         let appCoordinator = AppCoordinator()
+        appCoordinator.window = window
         let rootVC = appCoordinator.start()
         self.appCoordinator = appCoordinator
         window.rootViewController = rootVC
