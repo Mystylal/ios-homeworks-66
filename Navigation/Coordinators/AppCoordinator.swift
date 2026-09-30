@@ -28,7 +28,10 @@ final class AppCoordinator: Coordinator {
         DocumentVC.tabBarItem = UITabBarItem(title: "Document", image:UIImage(systemName: "folder"), tag:0)
         addChildCoordinator(DocumentCoordinator)
         
-        tabBarController.viewControllers = [feedVC, profileVC, DocumentVC]
+        let likedPostsVC = UINavigationController(rootViewController: LikedPostsViewController())
+        likedPostsVC.tabBarItem = UITabBarItem(title: "Liked", image:UIImage(systemName: "heart"), tag:0)
+        
+        tabBarController.viewControllers = [feedVC, profileVC, DocumentVC, likedPostsVC]
         return tabBarController
     }
     
