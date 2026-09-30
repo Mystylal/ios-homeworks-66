@@ -31,16 +31,13 @@ final class AppCoordinator: Coordinator {
     }
     
     private func showTabBar() {
-        let DocumentCoordinator = DocumentCoordinator()
-        let DocumentVC = DocumentCoordinator.start()
-        DocumentVC.tabBarItem = UITabBarItem(title: "Document", image:UIImage(systemName: "folder"), tag:0)
-        addChildCoordinator(DocumentCoordinator)
-        
-        let SettingsCoordinator = SettingsViewController()
-        let SettingsVC = UINavigationController(rootViewController: SettingsCoordinator)
-        SettingsVC.tabBarItem = UITabBarItem(title: "Settings", image:UIImage(systemName: "gearshape"), tag:1)
-        
-        tabBarController.viewControllers = [DocumentVC, SettingsVC]
+        let randomQuoteVC = UINavigationController(rootViewController: RandomQuoteViewController())
+        randomQuoteVC.tabBarItem = UITabBarItem(title: "Случайная", image: UIImage(systemName: "quote.bubble"), tag: 0)
+        let allQuotesVC = UINavigationController(rootViewController: AllQuotesViewController())
+        allQuotesVC.tabBarItem = UITabBarItem(title: "Все цитаты", image: UIImage(systemName: "list.bullet"), tag: 1)
+        let categoriesVC = UINavigationController(rootViewController: CategoriesViewController())
+        categoriesVC.tabBarItem = UITabBarItem(title: "Категории", image: UIImage(systemName: "folder"), tag: 2)
+        tabBarController.viewControllers = [randomQuoteVC, allQuotesVC, categoriesVC]
         window?.rootViewController = tabBarController
     }
     
