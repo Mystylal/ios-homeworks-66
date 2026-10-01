@@ -89,6 +89,11 @@ class ProfileViewController: UIViewController {
     private func showAvatarAnimation() {
          
     }
+    
+    @objc private func handleDoubleTap(_ gesture: UITapGestureRecognizer) {
+        guard let index = gesture.view?.tag, index < posts.count else { return }
+        CoreDataService.shared.savePost(posts[index])
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource {
@@ -107,6 +112,12 @@ extension ProfileViewController: UITableViewDataSource {
             fatalError("could not dequeueReusableCell")
         }
         cell.update(posts[indexPath.row])
+        
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        cell.contentView.tag = indexPath.row
+        cell.contentView.addGestureRecognizer(doubleTap)
+        cell.contentView.isUserInteractionEnabled = true
         return cell
     }
     
@@ -129,8 +140,7 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
          section == 0 ? 220 : 0
      }
-
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          if indexPath.section == 0 {
              coordinator?.showPhotos()
          }
