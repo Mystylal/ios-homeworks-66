@@ -41,13 +41,26 @@ class DocumentsViewController: UIViewController {
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: "FileCell")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadFileNames()
+    }
+    
     private func DocumentURL() -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
     
     private func loadFileNames() {
         let url = DocumentURL()
-        fileNames = (try? FileManager.default.contentsOfDirectory(atPath: url.path)) ?? []
+        var names = (try? FileManager.default.contentsOfDirectory(atPath: url.path)) ?? []
+        collectionView.reloadData()
+        let isAlphabetical = UserDefaults.standard.object(forKey: "isAlphabeticalSort") as? Bool ?? true
+        if isAlphabetical {
+            names.sort()
+        } else {
+            names.sort(by: >)
+        }
+        fileNames = names
         collectionView.reloadData()
     }
     
@@ -58,7 +71,6 @@ class DocumentsViewController: UIViewController {
         present(picker, animated: true)
     }
     
-
     /*
     // MARK: - Navigation
 
