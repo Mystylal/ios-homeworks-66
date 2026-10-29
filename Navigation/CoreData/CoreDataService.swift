@@ -21,6 +21,7 @@ class CoreDataService {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
@@ -35,17 +36,42 @@ class CoreDataService {
     }
     
     func savePost(_ post: Post) {
-        let cdPost = CDPost(context: context)
-        cdPost.author = post.author
-        cdPost.postDescription = post.description
-        cdPost.image = post.image
-        cdPost.likes = Int32(post.likes)
-        cdPost.views = Int32(post.views)
-        saveContext()
+        persistentContainer.performBackgroundTask { backgroundContext in
+            let cdPost = CDPost(context: backgroundContext)
+            cdPost.author = post.author
+            cdPost.postDescription = post.description
+            cdPost.image = post.image
+            cdPost.likes = Int32(post.likes)
+            cdPost.views = Int32(post.views)
+            
+            if backgroundContext.hasChanges {
+                try? backgroundContext.save()
+            }
+        }
+    }
+    
+    func deletePost(_ post: CDPost) {
+        let objectID = post.objectID
+        persistentContainer.performBackgroundTask { backgroundContext in
+            if let object = try? backgroundContext.existingObject(with: objectID){
+                backgroundContext.delete(object)
+                if backgroundContext.hasChanges {
+                    try? backgroundContext.save()
+                }
+            }
+        }
     }
     
     func fetchPosts() -> [CDPost] {
         let request = CDPost.fetchRequest()
+        request.fetchBatchSize = 20
+        return (try? context.fetch(request)) ?? []
+    }
+    
+    func fetchPosts(author: String) -> [CDPost] {
+        let request = CDPost.fetchRequest()
+        request.predicate = NSPredicate(format: "author == %@", author)
+        request.fetchBatchSize = 20
         return (try? context.fetch(request)) ?? []
     }
 }

@@ -10,6 +10,7 @@ import StorageService
 
 class LikedPostsViewController: UIViewController {
     private var posts: [Post] = []
+    private var cdPosts: [CDPost] = []
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -21,6 +22,10 @@ class LikedPostsViewController: UIViewController {
         title = "Понравившиеся"
         view.backgroundColor = .white
         setupTableView()
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(clearFilterTap)),
+            UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(filterTap))
+        ]
         
         let safeAreaGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -46,17 +51,33 @@ class LikedPostsViewController: UIViewController {
     }
     
     private func loadLikedPosts() {
-        let cdPost = CoreDataService.shared.fetchPosts()
-        posts = cdPost.map {
-            Post(
-                author: $0.author ?? "",
-                description: $0.postDescription ?? "",
-                image: $0.image ?? "",
-                likes: Int($0.likes),
-                views: Int($0.views)
-            )
-        }
+        cdPosts = CoreDataService.shared.fetchPosts()
         tableView.reloadData()
+    }
+    
+    @objc private func clearFilterTap() {
+        loadLikedPosts()
+    }
+    
+    private func applyFilter(author: String) {
+        cdPosts = CoreDataService.shared.fetchPosts(author: author)
+        tableView.reloadData()
+    }
+    
+    @objc private func filterTap() {
+        let alert = UIAlertController(title: "Фильтр по автору", message: nil, preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Имя автора"
+        }
+        let applyAction = UIAlertAction(title: "Применить", style: .default) { [weak self, weak alert] _ in
+            guard let author = alert?.textFields?.first?.text, !author.isEmpty else { return }
+            self?.applyFilter(author: author)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        alert.addAction(applyAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
     
@@ -74,18 +95,36 @@ class LikedPostsViewController: UIViewController {
 
 extension LikedPostsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        posts.count
+        cdPosts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
             fatalError("Could not dequeue cell")
         }
-        cell.update(posts[indexPath.row])
+        let cdPost = cdPosts[indexPath.row]
+        let post = Post(
+            author: cdPost.author ?? "",
+            description: cdPost.postDescription ?? "",
+            image: cdPost.image ?? "",
+            likes: Int(cdPost.likes),
+            views: Int(cdPost.views)
+        )
+        cell.update(post)
         return cell
     }
 }
 
 extension LikedPostsViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] _,_, complection in
+            guard let self else { return }
+            let cdPost = self.cdPosts[indexPath.row]
+            CoreDataService.shared.deletePost(cdPost)
+            self.cdPosts.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            complection(true)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
