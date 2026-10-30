@@ -49,7 +49,10 @@ final class AppCoordinator: Coordinator {
         let likedPostsVC = UINavigationController(rootViewController: LikedPostsViewController())
         likedPostsVC.tabBarItem = UITabBarItem(title: "Liked", image:UIImage(systemName: "heart"), tag:0)
         
-        tabBarController.viewControllers = [feedVC, profileVC, DocumentVC, likedPostsVC]
+        let mapVC = UINavigationController(rootViewController: MapViewController())
+        mapVC.tabBarItem = UITabBarItem(title: "Map", image:UIImage(systemName: "map"), tag:4)
+        
+        tabBarController.viewControllers = [feedVC, profileVC, DocumentVC, likedPostsVC, mapVC]
         window?.rootViewController = tabBarController
        
     }
