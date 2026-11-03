@@ -1,0 +1,69 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Mysty Mystylal on 02.11.2026.
+  
+*/
+"password.placeholder" = "Пароль";
+"password.wrong" = "Неверный пароль";
+"password.too_short" = "Пароль должен быть не менее чем из 4 символов";
+"password.mismatch" = "Пароли не совпадают";
+"password.enter" = "Введите пароль";
+"password.create" = "Создать пароль";
+"password.repeat" = "Повторите пароль";
+
+"info.title" = "Focus";
+"info.message" = "Choose";
+"info.action_ball" = "Ball";
+"info.action_hat" = "Hat";
+"info.orbital_period" = "Tatooine orbital period: %@";
+
+"settings.title" = "Настройки";
+"settings.sort" = "Сортировка";
+"settings.change_password" = "Поменять пароль";
+
+"documents.title" = "Документы";
+"documents.add_photo" = "Добавить фото";
+
+"post.info_button" = "Инфо";
+
+"photos.title" = "Фотогалерея";
+
+"login.button" = "Войти";
+"login.enter_username" = "Введите логин";
+"login.enter_password" = "Введите пароль";
+"common.error" = "Ошибка";
+"login.password_too_short" = "Пароль должен быть не менее %d символов";
+"login.wrong_credentials" = "Неверный логин или пароль";
+
+"profile.show_status" = "Показать статус";
+"profile.status_placeholder" = "Введите статус...";
+"profile.title" = "Профиль";
+
+"liked.title" = "Понравившиеся";
+"liked.filter_title" = "Фильтр по автору";
+"liked.filter_placeholder" = "Имя автора";
+"liked.apply" = "Применить";
+"common.cancel" = "Отмена";
+"common.delete" = "Удалить";
+
+"feed.enter_text" = "Введите текст";
+"feed.check_answer" = "Проверить ответ";
+"feed.title" = "Лента";
+"feed.open_post" = "Открыть пост";
+"feed.correct" = "Верно";
+"feed.incorrect" = "Не верно";
+
+"quote.title" = "Цитата";
+"quote.load" = "Загрузить";
+"quote.error" = "Ошибка: %@";
+"quotes.all_title" = "Все цитаты";
+"categories.title" = "Категории";
+
+"map.title" = "Карта";
+"tab.feed" = "Лента";
+"tab.profile" = "Профиль";
+"tab.document" = "Документы";
+"tab.liked" = "Понравившиеся";
+"tab.map" = "Карта";

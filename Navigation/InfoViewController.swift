@@ -56,14 +56,14 @@ class InfoViewController: UIViewController {
     
     @objc func buttonPressed(_ sender: UIButton) {
         let alert = UIAlertController(
-            title: "Фокус",
-            message: "Выберите",
+            title: NSLocalizedString("info.title", comment: ""),
+            message: NSLocalizedString("info.message", comment: ""),
             preferredStyle: .alert)
-        let action1 = UIAlertAction(title: "Шар", style: .default) { _ in
+        let action1 = UIAlertAction(title: NSLocalizedString("info.action_ball", comment: ""), style: .default) { _ in
             print("Бабах")
         }
 
-        let action2 = UIAlertAction(title: "Шляпа", style: .cancel) { _ in
+        let action2 = UIAlertAction(title: NSLocalizedString("info.action_hat", comment: ""), style: .cancel) { _ in
             print("Кролик")
         }
 
@@ -111,7 +111,7 @@ class InfoViewController: UIViewController {
             do {
                 let planet = try JSONDecoder().decode(Planet.self, from: data)
                 DispatchQueue.main.async {
-                    self.orbitalPeriodLabel.text = "Период обращения Татуина: \(planet.orbitalPeriod)"
+                    self.orbitalPeriodLabel.text = String(format: NSLocalizedString("info.orbital_period", comment: ""), "\(planet.orbitalPeriod)")
                 }
             } catch {
                 print(error.localizedDescription)

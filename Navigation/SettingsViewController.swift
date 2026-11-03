@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Settings"
+        title = NSLocalizedString("settings.title", comment: "")
         view.backgroundColor = .white
         setupTableView()
         
@@ -57,11 +57,11 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath)
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Сортировка"
+            cell.textLabel?.text = NSLocalizedString("settings.sort", comment: "")
             let isOn = UserDefaults.standard.object(forKey: "isAlphabeticalSort") as? Bool ?? true
             cell.accessoryType = isOn ? .checkmark : .none
         } else {
-            cell.textLabel?.text = "Поменять пароль"
+            cell.textLabel?.text = NSLocalizedString("settings.change_password", comment: "")
             cell.accessoryType = .disclosureIndicator
         }
         return cell

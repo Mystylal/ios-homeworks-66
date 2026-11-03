@@ -92,7 +92,7 @@ class LogInViewController: UIViewController {
     }()
     
     private lazy var logInButton: UIButton = {
-        let logInButton = CustomButton(title: "Log In", titleColor: .white) {
+        let logInButton = CustomButton(title: NSLocalizedString("login.button", comment: ""), titleColor: .white) {
             [weak self] in self?.logInButtonPressed()
         }
         logInButton.layer.cornerRadius = 10
@@ -235,13 +235,13 @@ class LogInViewController: UIViewController {
         do {
             try validateFieldsNotEmpty(login: email, password: password)
         } catch LoginError.emptyEmail {
-            showAlert(message: "Введите логин")
+            showAlert(message: NSLocalizedString("login.enter_username", comment: ""))
             return
         } catch LoginError.emptyPassword {
-            showAlert(message: "Введите пароль")
+            showAlert(message: NSLocalizedString("login.enter_password", comment: ""))
             return
         } catch {
-            showAlert(message: "Ошибка")
+            showAlert(message: NSLocalizedString("common.error", comment: ""))
             return
         }
         
@@ -250,7 +250,7 @@ class LogInViewController: UIViewController {
                 break
             case .failure(let error):
                 if case .passwordTooShort(let minLength) = error {
-                showAlert(message: "Пароль должен быть не менее \(minLength) символов")
+                showAlert(message: String(format: NSLocalizedString("login.password_too_short", comment: ""), minLength))
             }
             return
         }
@@ -270,7 +270,7 @@ class LogInViewController: UIViewController {
                             case .failure(let error):
                                 let err = error as NSError
                                 if err.code == AuthErrorCode.emailAlreadyInUse.rawValue {
-                                    self?.showAlert(message: "Неверный логин или пароль")
+                                    self?.showAlert(message: NSLocalizedString("login.wromg_credentials", comment: ""))
                                 } else {
                                     self?.showAlert(message: error.localizedDescription)
                                 }
@@ -283,7 +283,7 @@ class LogInViewController: UIViewController {
      }
     
     private func showAlert(message: String){
-        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("common.error", comment: ""), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }

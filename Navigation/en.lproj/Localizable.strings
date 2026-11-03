@@ -1,0 +1,70 @@
+/* 
+  Localizable.strings
+  Navigation
+
+  Created by Mysty Mystylal on 02.11.2026.
+  
+*/
+"password.placeholder" = "Password";
+"password.wrong" = "Wrong password";
+"password.too_short" = "Password must be at least 4 characters";
+"password.mismatch" = "Passwords don't match";
+"password.enter" = "Enter password";
+"password.create" = "Create password";
+"password.repeat" = "Repeat password";
+
+"info.title" = "Focus";
+"info.message" = "Choose";
+"info.action_ball" = "Ball";
+"info.action_hat" = "Hat";
+"info.orbital_period" = "Tatooine orbital period: %@";
+
+"settings.title" = "Settings";
+"settings.sort" = "Sort";
+"settings.change_password" = "Change password";
+
+"documents.title" = "Documents";
+"documents.add_photo" = "Add photo";
+
+"post.info_button" = "Info";
+
+"photos.title" = "Photo Gallery";
+
+"login.button" = "Log In";
+"login.enter_username" = "Enter username";
+"login.enter_password" = "Enter password";
+"common.error" = "Error";
+"login.password_too_short" = "Password must be at least %d characters";
+"login.wrong_credentials" = "Wrong username or password";
+
+"profile.show_status" = "Show status";
+"profile.status_placeholder" = "Enter status...";
+"profile.title" = "Profile";
+
+"liked.title" = "Liked";
+"liked.filter_title" = "Filter by author";
+"liked.filter_placeholder" = "Author name";
+"liked.apply" = "Apply";
+"common.cancel" = "Cancel";
+"common.delete" = "Delete";
+
+"feed.enter_text" = "Enter text";
+"feed.check_answer" = "Check answer";
+"feed.title" = "Feed";
+"feed.open_post" = "Open post";
+"feed.correct" = "Correct";
+"feed.incorrect" = "Incorrect";
+
+"quote.title" = "Quote";
+"quote.load" = "Load";
+"quote.error" = "Error: %@";
+"quotes.all_title" = "All quotes";
+"categories.title" = "Categories";
+
+"map.title" = "Map";
+"tab.feed" = "Feed";
+"tab.profile" = "Profile";
+"tab.document" = "Documents";
+"tab.liked" = "Liked";
+"tab.map" = "Map";
+
