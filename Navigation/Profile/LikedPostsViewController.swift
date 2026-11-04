@@ -19,7 +19,7 @@ class LikedPostsViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Понравившиеся"
+        title = NSLocalizedString("liked.title", comment: "")
         view.backgroundColor = .white
         setupTableView()
         navigationItem.rightBarButtonItems = [
@@ -65,16 +65,16 @@ class LikedPostsViewController: UIViewController {
     }
     
     @objc private func filterTap() {
-        let alert = UIAlertController(title: "Фильтр по автору", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: NSLocalizedString("liked.filter_tiltle", comment: ""), message: nil, preferredStyle: .alert)
         alert.addTextField { textField in
-            textField.placeholder = "Имя автора"
+            textField.placeholder = NSLocalizedString("liked.filter_placeholder", comment: "")
         }
-        let applyAction = UIAlertAction(title: "Применить", style: .default) { [weak self, weak alert] _ in
+        let applyAction = UIAlertAction(title: NSLocalizedString("liked.apply", comment: ""), style: .default) { [weak self, weak alert] _ in
             guard let author = alert?.textFields?.first?.text, !author.isEmpty else { return }
             self?.applyFilter(author: author)
         }
         
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("common.cancel", comment: ""), style: .cancel)
         alert.addAction(applyAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
@@ -117,7 +117,7 @@ extension LikedPostsViewController: UITableViewDataSource {
 
 extension LikedPostsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] _,_, complection in
+        let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("common.delete", comment: "")) { [weak self] _,_, complection in
             guard let self else { return }
             let cdPost = self.cdPosts[indexPath.row]
             CoreDataService.shared.deletePost(cdPost)

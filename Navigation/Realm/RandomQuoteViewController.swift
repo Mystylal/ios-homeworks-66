@@ -28,8 +28,8 @@ class RandomQuoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Цитата"
-        actionButton.setTitle("Загрузить", for: .normal)
+        title = NSLocalizedString("quote.title", comment: "")
+        actionButton.setTitle(NSLocalizedString("quote.load", comment: ""), for: .normal)
         view.addSubview(label)
         view.addSubview(actionButton)
         
@@ -55,7 +55,7 @@ class RandomQuoteViewController: UIViewController {
                     self?.label.text = quote.value
                     self?.repository.save(quote)
                 case .failure(let error):
-                    self?.label.text = "Ошибка: \(error)"
+                    self?.label.text = String(format: NSLocalizedString("quote.error", comment: ""), "\(error)")
                 }
             }
         }

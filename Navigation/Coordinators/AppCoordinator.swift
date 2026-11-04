@@ -33,24 +33,24 @@ final class AppCoordinator: Coordinator {
     private func showTabBar() {
         let feedCoordinator = FeedCoordinator()
         let feedVC = feedCoordinator.start()
-        feedVC.tabBarItem = UITabBarItem(title: "Feed", image:UIImage(systemName: "house"), tag:0)
+        feedVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tab.feed", comment: ""), image:UIImage(systemName: "house"), tag:0)
         addChildCoordinator(feedCoordinator)
         
         let profileCoordinator = ProfileCoordinator()
         let profileVC = profileCoordinator.start()
-        profileVC.tabBarItem = UITabBarItem(title: "Profile", image:UIImage(systemName: "person"), tag:0)
+        profileVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tab.profile", comment: ""), image:UIImage(systemName: "person"), tag:0)
         addChildCoordinator(profileCoordinator)
         
         let DocumentCoordinator = DocumentCoordinator()
         let DocumentVC = DocumentCoordinator.start()
-        DocumentVC.tabBarItem = UITabBarItem(title: "Document", image:UIImage(systemName: "folder"), tag:0)
+        DocumentVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tab.document", comment: ""), image:UIImage(systemName: "folder"), tag:0)
         addChildCoordinator(DocumentCoordinator)
         
         let likedPostsVC = UINavigationController(rootViewController: LikedPostsViewController())
-        likedPostsVC.tabBarItem = UITabBarItem(title: "Liked", image:UIImage(systemName: "heart"), tag:0)
+        likedPostsVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tab.liked", comment: ""), image:UIImage(systemName: "heart"), tag:0)
         
         let mapVC = UINavigationController(rootViewController: MapViewController())
-        mapVC.tabBarItem = UITabBarItem(title: "Map", image:UIImage(systemName: "map"), tag:4)
+        mapVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tab.map", comment: ""), image:UIImage(systemName: "map"), tag:4)
         
         tabBarController.viewControllers = [feedVC, profileVC, DocumentVC, likedPostsVC, mapVC]
         window?.rootViewController = tabBarController

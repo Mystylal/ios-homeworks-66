@@ -40,7 +40,7 @@ import UIKit
       }()
       
       private lazy var setStatusButton: UIButton = {
-          let button = CustomButton(title: "Show status", titleColor: .white, backgroundColor: .systemBlue) {
+          let button = CustomButton(title: NSLocalizedString("profile.show_status", comment: ""), titleColor: .white, backgroundColor: .systemBlue) {
               [weak self] in self?.buttonPressed()
           }
           button.layer.cornerRadius = 4
@@ -53,7 +53,7 @@ import UIKit
               
       private lazy var statusTextField: UITextField = {
           let textField = UITextField()
-          textField.placeholder = "Введите статус..."
+          textField.placeholder = NSLocalizedString("profile.status_placeholder", comment: "")
           textField.font = UIFont.systemFont(ofSize: 15)
           textField.layer.cornerRadius = 12
           textField.backgroundColor = .white

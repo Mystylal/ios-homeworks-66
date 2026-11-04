@@ -22,7 +22,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Map"
+        title = NSLocalizedString("map.title", comment: "")
         view.addSubview(mapView)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTap(_:)))
         mapView.addGestureRecognizer(tapGesture)

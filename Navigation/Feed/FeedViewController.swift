@@ -15,14 +15,14 @@ class FeedViewController: UIViewController {
     
     private lazy var guessTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Введите текст"
+        textField.placeholder = NSLocalizedString("feed.enter_text", comment: "")
         textField.borderStyle = .roundedRect
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
     private lazy var checkGuessButton: CustomButton = {
-        CustomButton(title: "Проверить ответ", titleColor: .white) { [weak self] in
+        CustomButton(title: NSLocalizedString("feed.check_answer", comment: ""), titleColor: .white) { [weak self] in
             self?.checkGuess()
         }
     }()
@@ -36,10 +36,10 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Feed"
+        title = NSLocalizedString("feed.title", comment: "")
         view.backgroundColor = .systemGray
         
-        let button = CustomButton(title: "Открыть пост", titleColor: .white) { [weak self] in
+        let button = CustomButton(title: NSLocalizedString("feed.open_post", comment: ""), titleColor: .white) { [weak self] in
             self?.buttonPressed()
         }
         view.addSubview(button)
@@ -75,7 +75,7 @@ class FeedViewController: UIViewController {
         guard let word = guessTextField.text?.lowercased(), !word.isEmpty else { return }
         
         feedModel.check(word: word) { [weak self] isRight in
-            self?.resultLabel.text = isRight ? "Верно" : "Не верно"
+            self?.resultLabel.text = isRight ? NSLocalizedString("feed.correct", comment: "") : NSLocalizedString("feed.incorrect", comment: "")
             self?.resultLabel.textColor = isRight ? .systemGreen : .systemRed
         }
     }

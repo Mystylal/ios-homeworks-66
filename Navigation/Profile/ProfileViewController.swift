@@ -37,7 +37,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Profile"
+        title = NSLocalizedString("profile.title", comment: "")
         #if DEBUG
         view.backgroundColor = .white
         #else

@@ -17,7 +17,7 @@ class PostViewController: UIViewController {
         title = post?.author
         
         let infoButton = UIBarButtonItem(
-            title: "Info",
+            title: NSLocalizedString("post.info_button", comment: ""),
             style: .plain,
             target: self,
             action: #selector(infoButtonPressed))

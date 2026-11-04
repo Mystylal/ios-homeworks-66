@@ -29,7 +29,7 @@ class PasswordViewController: UIViewController {
     
     private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Пароль"
+        textField.placeholder = NSLocalizedString("password.placeholder", comment: "")
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -68,13 +68,13 @@ class PasswordViewController: UIViewController {
         switch mode {
         case .verify:
             guard passwordService.check(password: password) else {
-                showAlert(message: "Неверный пароль")
+                showAlert(message: NSLocalizedString("password.wrong", comment: ""))
                 return
             }
             onSuccess?()
         case .create:
             guard password.count >= 4 else {
-                showAlert(message: "Пароль должен быть не менее чем из 4 символов")
+                showAlert(message: NSLocalizedString("password.too_short", comment: ""))
                 return
             }
             if let first = firstEnteredPassword {
@@ -82,7 +82,7 @@ class PasswordViewController: UIViewController {
                     passwordService.save(password: password)
                     onSuccess?()
                 } else {
-                    showAlert(message: "Пароли не совпадают")
+                    showAlert(message: NSLocalizedString("password.missmatch", comment: ""))
                     firstEnteredPassword = nil
                     passwordTextField.text = ""
                     updateButtonTitle()
@@ -98,12 +98,12 @@ class PasswordViewController: UIViewController {
     private func updateButtonTitle() {
         switch mode {
         case .verify:
-            actionButton.setTitle("Введите пароль", for: .normal)
+            actionButton.setTitle(NSLocalizedString("password.enter", comment: ""), for: .normal)
         case .create:
             if firstEnteredPassword == nil {
-                actionButton.setTitle("Создать пароль", for: .normal)
+                actionButton.setTitle(NSLocalizedString("password.create", comment: ""), for: .normal)
             } else {
-                actionButton.setTitle("Повторите пароль", for: .normal)
+                actionButton.setTitle(NSLocalizedString("password.repeat", comment: ""), for: .normal)
             }
         }
     }

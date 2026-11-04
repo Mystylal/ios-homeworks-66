@@ -19,9 +19,9 @@ class DocumentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Documents"
+        title = NSLocalizedString("documents.title", comment: "")
         view.backgroundColor = .white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title:"Добавить фото", style: .plain, target: self, action: #selector(addFile))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title:NSLocalizedString("documents.add_photo", comment: ""), style: .plain, target: self, action: #selector(addFile))
         setupTableView()
         loadFileNames()
         

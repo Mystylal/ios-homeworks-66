@@ -19,7 +19,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Категории"
+        title = NSLocalizedString("categories.title", comment: "")
         view.backgroundColor = .white
         setupTableView()
         
