@@ -16,7 +16,7 @@ import UIKit
           imageView.clipsToBounds = true
           imageView.layer.cornerRadius = 50
           imageView.layer.borderWidth = 3
-          imageView.layer.borderColor = UIColor.white.cgColor
+          imageView.layer.borderColor = UIColor.appBackground.cgColor
           imageView.translatesAutoresizingMaskIntoConstraints = false
           return imageView
       }()
@@ -25,7 +25,7 @@ import UIKit
           let label = UILabel()
           label.text = "Hipster Cat"
           label.font = UIFont.boldSystemFont(ofSize: 18)
-          label.textColor = .black
+          label.textColor = .appText
           label.translatesAutoresizingMaskIntoConstraints = false
           return label
       }()
@@ -34,7 +34,7 @@ import UIKit
           let label = UILabel()
           label.text = "Waiting for something..."
           label.font = UIFont.boldSystemFont(ofSize: 14)
-          label.textColor = .gray
+          label.textColor = .appSecondaryText
           label.translatesAutoresizingMaskIntoConstraints = false
           return label
       }()
@@ -44,7 +44,7 @@ import UIKit
               [weak self] in self?.buttonPressed()
           }
           button.layer.cornerRadius = 4
-          button.layer.shadowColor = UIColor.black.cgColor
+          button.layer.shadowColor = UIColor.appText.cgColor
           button.layer.shadowOpacity = 0.7
           button.layer.shadowOffset = CGSize(width: 4, height: 4)
           button.translatesAutoresizingMaskIntoConstraints = false
@@ -56,9 +56,9 @@ import UIKit
           textField.placeholder = NSLocalizedString("profile.status_placeholder", comment: "")
           textField.font = UIFont.systemFont(ofSize: 15)
           textField.layer.cornerRadius = 12
-          textField.backgroundColor = .white
+          textField.backgroundColor = .appBackground
           textField.layer.borderWidth = 1
-          textField.layer.borderColor = UIColor.black.cgColor
+          textField.layer.borderColor = UIColor.appText.cgColor
           textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height:0))
           textField.leftViewMode = .always
           textField.translatesAutoresizingMaskIntoConstraints = false

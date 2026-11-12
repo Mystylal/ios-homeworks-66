@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         title = NSLocalizedString("profile.title", comment: "")
         #if DEBUG
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         #else
         view.backgroundColor = .blue
         #endif

@@ -30,7 +30,7 @@ class CategoryQuotesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = categoryName
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         setupTableView()
         
         let safeAreaGuide = view.safeAreaLayoutGuide

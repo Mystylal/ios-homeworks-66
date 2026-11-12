@@ -16,7 +16,7 @@ class RandomQuoteViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.textColor = .black
+        label.textColor = .appText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,7 +27,7 @@ class RandomQuoteViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         title = NSLocalizedString("quote.title", comment: "")
         actionButton.setTitle(NSLocalizedString("quote.load", comment: ""), for: .normal)
         view.addSubview(label)

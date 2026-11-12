@@ -18,7 +18,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("settings.title", comment: "")
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         setupTableView()
         
         let safeAreaGuide = view.safeAreaLayoutGuide
