@@ -20,7 +20,7 @@ class LikedPostsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("liked.title", comment: "")
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         setupTableView()
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: UIImage(systemName: "xmark.circle"), style: .plain, target: self, action: #selector(clearFilterTap)),

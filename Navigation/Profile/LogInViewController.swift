@@ -45,11 +45,11 @@ class LogInViewController: UIViewController {
     private lazy var emailTextField: UITextField = {
         let emailText = UITextField()
         emailText.placeholder = "Email or phone"
-        emailText.textColor = .black
+        emailText.textColor = .appText
         emailText.font = UIFont.systemFont(ofSize: 16)
         emailText.tintColor = UIColor(named: "accentColor")
         emailText.autocapitalizationType = .none
-        emailText.backgroundColor = .systemGray6
+        emailText.backgroundColor = .appSecondaryBackground
         emailText.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         emailText.leftViewMode = .always
         emailText.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -59,7 +59,7 @@ class LogInViewController: UIViewController {
 
     private lazy var separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .appSecondaryText
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -67,11 +67,11 @@ class LogInViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let passwordText = UITextField()
         passwordText.placeholder = "Password"
-        passwordText.textColor = .black
+        passwordText.textColor = .appText
         passwordText.font = UIFont.systemFont(ofSize: 16)
         passwordText.tintColor = UIColor(named: "accentColor")
         passwordText.isSecureTextEntry = true
-        passwordText.backgroundColor = .systemGray6
+        passwordText.backgroundColor = .appSecondaryBackground
         passwordText.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         passwordText.leftViewMode = .always
         passwordText.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -82,8 +82,8 @@ class LogInViewController: UIViewController {
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
-        stack.backgroundColor = .systemGray6
-        stack.layer.borderColor = UIColor.lightGray.cgColor
+        stack.backgroundColor = .appSecondaryBackground
+        stack.layer.borderColor = UIColor.appSecondaryText.cgColor
         stack.layer.borderWidth = 0.5
         stack.layer.cornerRadius = 10
         stack.clipsToBounds = true
@@ -106,7 +106,7 @@ class LogInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         navigationController?.navigationBar.isHidden = true
 
         view.addSubview(scrollView)

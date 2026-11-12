@@ -20,7 +20,7 @@ class CategoriesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("categories.title", comment: "")
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         setupTableView()
         
         let safeAreaGuide = view.safeAreaLayoutGuide

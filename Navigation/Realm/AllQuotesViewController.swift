@@ -20,7 +20,7 @@ class AllQuotesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("quotes.all_title", comment: "")
-        view.backgroundColor = .white
+        view.backgroundColor = .appBackground
         setupTableView()
         
         let safeAreaGuide = view.safeAreaLayoutGuide
