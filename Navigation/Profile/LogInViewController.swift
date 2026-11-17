@@ -11,6 +11,7 @@ import FirebaseAuth
 class LogInViewController: UIViewController {
     
     private weak var loginDelegate: LoginViewControllerDelegate?
+    private lazy var viewModel = LoginViewModel(loginDelegate: loginDelegate)
     
     init (loginDelegate: LoginViewControllerDelegate?) {
         self.loginDelegate = loginDelegate
@@ -107,6 +108,16 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .appBackground
+        viewModel.onStateChange = { [weak self] state in
+            switch state {
+            case .initial,.loading:
+                break
+            case .success:
+                self?.goToProfile(email: self?.emailTextField.text ?? "")
+            case .failure(let message):
+                self?.showAlert(message: message)
+            }
+        }
         navigationController?.navigationBar.isHidden = true
 
         view.addSubview(scrollView)
@@ -232,54 +243,8 @@ class LogInViewController: UIViewController {
         let email = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         
-        do {
-            try validateFieldsNotEmpty(login: email, password: password)
-        } catch LoginError.emptyEmail {
-            showAlert(message: NSLocalizedString("login.enter_username", comment: ""))
-            return
-        } catch LoginError.emptyPassword {
-            showAlert(message: NSLocalizedString("login.enter_password", comment: ""))
-            return
-        } catch {
-            showAlert(message: NSLocalizedString("common.error", comment: ""))
-            return
-        }
-        
-        switch validatePasswordLength(password: password) {
-            case .success:
-                break
-            case .failure(let error):
-                if case .passwordTooShort(let minLength) = error {
-                showAlert(message: String(format: NSLocalizedString("login.password_too_short", comment: ""), minLength))
-            }
-            return
-        }
         timer?.invalidate()
-        
-        loginDelegate?.checkCredentials(email: email, password: password) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success:
-                    self?.goToProfile(email: email)
-                case .failure(let error):
-                    self?.loginDelegate?.signUp(email: email, password: password) { signUpResult in
-                        DispatchQueue.main.async {
-                            switch signUpResult {
-                            case .success:
-                                self?.goToProfile(email: email)
-                            case .failure(let error):
-                                let err = error as NSError
-                                if err.code == AuthErrorCode.emailAlreadyInUse.rawValue {
-                                    self?.showAlert(message: NSLocalizedString("login.wromg_credentials", comment: ""))
-                                } else {
-                                    self?.showAlert(message: error.localizedDescription)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        viewModel.logIn(email: email, password: password)
      }
     
     private func showAlert(message: String){
