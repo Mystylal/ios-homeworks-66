@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "B591C66A-7B9A-4D62-A450-ED75C6965D19",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Navigation.xcodeproj",
+      "identifier" : "4D9757F42F6039FE003B62CE",
+      "name" : "Navigation"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Navigation.xcodeproj",
+        "identifier" : "4D3EA0EF30AA6C9E00380CD3",
+        "name" : "NavigationTests"
+      }
+    }
+  ],
+  "version" : 1
+}

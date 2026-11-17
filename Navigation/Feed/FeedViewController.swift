@@ -36,6 +36,17 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        feedModel.onStateChange = { [weak self] state in
+            switch state {
+            case .initial, .checking:
+                break
+            case .checked(let isRight):
+                self?.resultLabel.text = isRight ? NSLocalizedString("feed.correct", comment: "") : NSLocalizedString("feed.incorrect", comment: "")
+                self?.resultLabel.textColor = isRight ? .systemGreen : .systemRed
+            case .error:
+                self?.resultLabel.text = nil
+            }
+        }
         title = NSLocalizedString("feed.title", comment: "")
         view.backgroundColor = .systemGray
         
@@ -69,14 +80,10 @@ class FeedViewController: UIViewController {
         coordinator?.showPost(post)
     }
     
-    private let feedModel = FeedModel()
+    private let feedModel = FeedViewModel()
     
     private func checkGuess() {
-        guard let word = guessTextField.text?.lowercased(), !word.isEmpty else { return }
-        
-        feedModel.check(word: word) { [weak self] isRight in
-            self?.resultLabel.text = isRight ? NSLocalizedString("feed.correct", comment: "") : NSLocalizedString("feed.incorrect", comment: "")
-            self?.resultLabel.textColor = isRight ? .systemGreen : .systemRed
-        }
+        guard let word = guessTextField.text?.lowercased() else { return }
+        feedModel.check(word: word)
     }
 }
