@@ -10,14 +10,15 @@ import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
+    
+    private let notificationsService = LocalNotificationsService()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
             FirebaseApp.configure()
         }
+        notificationsService.registerForLatestUpdatesIfPossible()
         return true
     }
 
