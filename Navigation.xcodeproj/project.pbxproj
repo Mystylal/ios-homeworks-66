@@ -10,6 +10,7 @@
 		4D65ED8F300FAFD900196EBA /* iOSIntPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 4D65ED8E300FAFD900196EBA /* iOSIntPackage */; };
 		4D6FBFB63069A5B8001AC623 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 4D6FBFB53069A5B8001AC623 /* KeychainAccess */; };
 		4DB7DDFE306C01B300ABF1F4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4DB7DDFD306C01B300ABF1F4 /* RealmSwift */; };
+		4DCFAD3030B5912200FF87F7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 4DB7DDFD306C01B300ABF1F4 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4DDB7515300BD41500469E04 /* StorageService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDB750D300BD41500469E04 /* StorageService.framework */; };
 		4DDB7516300BD41500469E04 /* StorageService.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDB750D300BD41500469E04 /* StorageService.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4DF3993130699DC000631898 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4DF3993030699DC000631898 /* FirebaseAuth */; };
@@ -40,6 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4DCFAD3030B5912200FF87F7 /* RealmSwift in Embed Frameworks */,
 				4DDB7516300BD41500469E04 /* StorageService.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -396,6 +398,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Разрешите доступ для входа по Face ID";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow to show location";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложению нужен доступ к галерее, чтобы добавлять фотографии";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -431,6 +434,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Navigation/Info.plist;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Разрешите доступ для входа по Face ID";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow to show location";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Приложению нужен доступ к галерее, чтобы добавлять фотографии";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -509,6 +513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -569,6 +574,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
