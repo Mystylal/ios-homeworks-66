@@ -12,6 +12,7 @@ class LogInViewController: UIViewController {
     
     private weak var loginDelegate: LoginViewControllerDelegate?
     private lazy var viewModel = LoginViewModel(loginDelegate: loginDelegate)
+    private let authorizationServic = LocalAuthorizationService()
     
     init (loginDelegate: LoginViewControllerDelegate?) {
         self.loginDelegate = loginDelegate
@@ -104,6 +105,19 @@ class LogInViewController: UIViewController {
         logInButton.translatesAutoresizingMaskIntoConstraints = false
         return logInButton
     }()
+    
+    private lazy var faceIDButton: UIButton = {
+        let faceIDButton = CustomButton(title:"Войти по Face ID" ,titleColor: .white) {
+            [weak self] in self?.faceIDButtonPressed()
+        }
+        faceIDButton.layer.cornerRadius = 10
+        faceIDButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .normal)
+        faceIDButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .selected)
+        faceIDButton.setBackgroundImage(UIImage(named: "blue_pixel"), for: .highlighted)
+        faceIDButton.clipsToBounds = true
+        faceIDButton.translatesAutoresizingMaskIntoConstraints = false
+        return faceIDButton
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,6 +142,7 @@ class LogInViewController: UIViewController {
         stackView.addArrangedSubview(separatorView)
         stackView.addArrangedSubview(passwordTextField)
         contentView.addSubview(logInButton)
+        contentView.addSubview(faceIDButton)
         
         let safeAreaGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
@@ -160,7 +175,13 @@ class LogInViewController: UIViewController {
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -16),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
-            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -16),
+           
+            
+            faceIDButton.topAnchor.constraint(equalTo: logInButton.bottomAnchor, constant: 16),
+            faceIDButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            faceIDButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            faceIDButton.heightAnchor.constraint(equalToConstant: 50),
+            faceIDButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
         ])
     }
     
@@ -190,6 +211,17 @@ class LogInViewController: UIViewController {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) {
             [weak self] _ in self?.clearFields()
+        }
+    }
+    
+    private func faceIDButtonPressed(){
+        authorizationServic.authenticateUser { [weak self] success in
+            guard let self else { return }
+            if success {
+                self.goToProfile(email: self.emailTextField.text ?? "")
+            } else {
+                self.showAlert(message: "Не удалось выполнить вход по Face ID")
+            }
         }
     }
     
