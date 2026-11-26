@@ -103,10 +103,11 @@ extension LikedPostsViewController: UITableViewDataSource {
             fatalError("Could not dequeue cell")
         }
         let cdPost = cdPosts[indexPath.row]
+        let image = cdPost.imageData.flatMap { UIImage(data: $0) } ??  cdPost.image.flatMap { UIImage(named: $0) } ?? UIImage()
         let post = Post(
             author: cdPost.author ?? "",
             description: cdPost.postDescription ?? "",
-            image: cdPost.image ?? "",
+            image: image,
             likes: Int(cdPost.likes),
             views: Int(cdPost.views)
         )
