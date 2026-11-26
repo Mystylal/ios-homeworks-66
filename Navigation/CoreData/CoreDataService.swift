@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import StorageService
+import UIKit
 
 class CoreDataService {
     static let shared = CoreDataService()
@@ -40,7 +41,7 @@ class CoreDataService {
             let cdPost = CDPost(context: backgroundContext)
             cdPost.author = post.author
             cdPost.postDescription = post.description
-            cdPost.image = post.image
+            cdPost.imageData = post.image.pngData()
             cdPost.likes = Int32(post.likes)
             cdPost.views = Int32(post.views)
             

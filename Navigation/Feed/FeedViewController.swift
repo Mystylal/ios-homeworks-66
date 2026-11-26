@@ -9,7 +9,7 @@ import UIKit
 import StorageService
 
 class FeedViewController: UIViewController {
-    private let post = Post(author: "Hipster Cat", description: "Тестовый пост", image: "fish 1", likes: 100, views: 500)
+    private let post = Post(author: "Hipster Cat", description: "Тестовый пост", image: UIImage(named: "fish 1") ?? UIImage(), likes: 100, views: 500)
     
     weak var coordinator: FeedCoordinator?
     
